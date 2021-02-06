@@ -1,0 +1,6 @@
+networkx
+matplotlib
+topzootools
+progressbar
+bitarray >= 0.3.4
+interruptingcow

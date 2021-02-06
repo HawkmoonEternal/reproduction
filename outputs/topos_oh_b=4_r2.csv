@@ -1,0 +1,7 @@
+topology,b,bit-overhead
+attmpls,4,30.0
+bellsouth,4,25.0
+fattree4,4,30.0
+geant,4,30.0
+stanford,4,24.0
+uscarrier,4,28.0
