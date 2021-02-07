@@ -5,8 +5,11 @@ from functools import partial
 
 outputname='topos_opt_oh_Th2.csv'
 Th=2
+b_opt=True #use best b value
+b_fixed=4
 z_min=1
 z_max=32
+topos=['attmpls', 'bellsouth','fattree4','geant', 'stanford', 'uscarrier']
 
 params_to_write=['detections=['+str(Th)+']', 'zrange = xrange('+str(z_max)+','+str(z_min)+',-1)']
 
@@ -49,13 +52,8 @@ def multip(name,param_dict):
                 if float(vals[index_dict['FP%']])==float(0):
                     d[name]=float(vals[index_dict['Mem']])
 
-
-topos=['attmpls', 'bellsouth','fattree4','geant', 'stanford', 'uscarrier']
-
 param_dict={}
 index_dict={}
-
-
 for topo in topos:
     with open('outputs/topo_params_'+topo+'.csv') as csvfile:
         csvreader=csv.reader(csvfile)
@@ -69,8 +67,10 @@ for topo in topos:
                 if not topo in param_dict:
                     param_dict[topo]=(-1,-1)
                 if param_dict[topo][0]==-1 or float(row[index_dict['AvgTime']])<param_dict[topo][1]:
-                    param_dict[topo]=(int(row[index_dict['b']]),float(row[index_dict['AvgTime']]))
-
+                    if b_opt:
+                        param_dict[topo]=(int(row[index_dict['b']]),float(row[index_dict['AvgTime']]))
+                    else:
+                        param_dict[topo]=(b_fixed,1.0)
 
 p = Pool(processes = len(topos))
 async_result = p.map_async(partial(multip, param_dict=param_dict), topos)

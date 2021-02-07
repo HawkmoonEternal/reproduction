@@ -5,6 +5,11 @@ from functools import partial
 
 outputname='topos_opt_time.csv'
 Th=1
+#if true use optimal b value else use b_fixed
+b_opt=True
+b_fixed=4
+
+topos=['attmpls', 'bellsouth','fattree4','geant', 'stanford', 'uscarrier']
 
 params_to_write=['detections=['+str(Th)+']']
 class temporary_copy(object):
@@ -42,18 +47,8 @@ def multip(name,param_dict):
                 d[name]=float(lines[1].split(',')[index])
 
 
-
-
-
-
-
-
-topos=['attmpls', 'bellsouth','fattree4','geant', 'stanford', 'uscarrier']
-
 param_dict={}
 index_dict={}
-
-
 for topo in topos:
     with open('outputs/topo_params_'+topo+'.csv') as csvfile:
         csvreader=csv.reader(csvfile)
@@ -67,7 +62,10 @@ for topo in topos:
                 if not topo in param_dict:
                     param_dict[topo]=(-1,-1)
                 if param_dict[topo][0]==-1 or float(row[index_dict['AvgTime']])<param_dict[topo][1]:
-                    param_dict[topo]=(int(row[index_dict['b']]),float(row[index_dict['AvgTime']]))
+                    if b_opt:
+                        param_dict[topo]=(int(row[index_dict['b']]),float(row[index_dict['AvgTime']]))
+                    else:
+                        param_dict[topo]=(b_fixed,1.0)
 
 p = Pool(processes = len(topos))
 async_result = p.map_async(partial(multip, param_dict=param_dict), topos)
