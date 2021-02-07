@@ -8,26 +8,39 @@ Kučera et al provided a code base for reproduction of the results presented in 
 The information of the next subsections refers to the code and results of the reproduction process.
 
 ## Overview of Reproduction steps
-The reproduction process was performed in the following steps
+The reproduction process was performed in the following steps:
+### Synthetic tests
 * Rerun of all parameter sensitivity tests (rerun_figures.sh)
 * Run of reparameterized tests for figure 2 (python2 figure2_reparam.py >> outputs/figure2_reparam.csv)
-* Run of reparameterized tests for figure 7 (fig7_reparam.py)
+* Run of reparameterized tests for figure 7 (figure7_reparam.py)
+
+### Topology tests
 * Run of reparameterized timing tests for all topologies 10k reps (topos_param_range.sh)
+* Run of timing tests for all topologies with b=4, 3M reps and Th=1 (topos_opt_time.py with Th set to 1 at the top of file and b set to 4) 
 * Run of timing tests for all topologies with best b, 3M reps and Th=1 (topos_opt_time.py with Th set to 1 at the top of file) 
 * Run of timing tests for all topologies with best b, 3M reps and Th=2 (topos_opt_time.py with Th set to 1 at the top of file) 
+* Run of bit overhead tests for all topologies with b=4 and 3M reps and Th=1 (topos_opt_oh.py adjusted)
 * Run of bit overhead tests for all topologies with best b and 3M reps and Th=2 (topos_opt_oh.py)
 
 ## Overview of Files
+### Synthetic tests
 * rerun_figures.sh -> produced outputs/figure_x.csv, with x in {'2','3','4','5a','5b','6a','6b','7'}
-* outputs/figure2_reparam.py -> produced outputs/figure2_reparam.csv
-* outputs/figure7_reparam.py -> produced outputs/fig7_reparam.py
+* paper/figure2_reparam.py -> produced outputs/figure2_reparam.csv
+* paper/figure7_reparam.py -> produced outputs/figure7_reparam.py
+
+### Topology tests
 * topos_param_range.sh + table4-unroller-time-[topology]_param.csv -> produced topo_params_[topology].csv
 * topos_opt_time.py -> produced topos_opt_time.csv, topos_opt_time_Th2.csv etc... (depending on Th parameter)
 * topos_opt_oh.py -> produced topos_opt_oh.csv, topos_oh_b=4.csv, etc... etc.
 
+### Plots
 * outputs/figure_plotter.py -> adjusted parameters to produce outputs/plots/figure[num].pdf
 * outputs/figure2_plotter.py -> produced outputs/plots/figure2_reparam.pdf
 * outputs/figure7_plotter.py -> produced outputs/plots/figure7_reparam.pdf
+
+## Outputs
+* all results used for the report are stored as*.csv file in the **outputs** folder
+* all plots used for the report  can be found in **outputs/plots** folder
 
 
 # Unroller
